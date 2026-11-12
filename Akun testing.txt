@@ -1,0 +1,7 @@
+Akun testing
+
+login menggunakan salah satu akun:
+
+Admin: admin@helpdesk.test (pass: password)
+IT Support: support@helpdesk.test (pass: password)
+Employee: employee@helpdesk.test (pass: password)
