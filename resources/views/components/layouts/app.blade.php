@@ -4,21 +4,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'IT Helpdesk System' }}</title>
+    
+    <!-- Favicon PT. Kumala Central Partindo -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-kumala.png') }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="h-full flex flex-col font-sans text-slate-800 antialiased">
+<body class="min-h-screen flex flex-col font-sans text-slate-800 antialiased">
+    @auth
     <header class="bg-indigo-700 text-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center space-x-8">
-                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 font-bold text-xl tracking-tight text-white hover:text-indigo-100">
-                        <svg class="w-7 h-7 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                        </svg>
-                        <span>Helpdesk<span class="text-indigo-200">IT</span></span>
+                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 text-white hover:text-indigo-100 transition group">
+                        <div class="bg-white p-1 rounded-md shadow-xs flex items-center justify-center shrink-0">
+                            <img src="{{ asset('images/logo-kumala.png') }}" alt="Logo PT. Kumala Central Partindo" class="h-7 w-auto object-contain">
+                        </div>
+                        <div class="flex flex-col justify-center gap-1">
+                            <span class="font-bold text-lg tracking-tight leading-none">Helpdesk <span class="text-indigo-200">IT</span></span>
+                            <span class="text-[10px] font-medium tracking-wider text-indigo-200 uppercase leading-none">PT. Kumala Central Partindo</span>
+                        </div>
                     </a>
-                    @auth
                     <nav class="hidden md:flex space-x-2">
                         <a href="{{ route('dashboard') }}" class="px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('dashboard') ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-600' }}">
                             Dashboard
@@ -35,10 +44,8 @@
                             </a>
                         @endif
                     </nav>
-                    @endauth
                 </div>
 
-                @auth
                 <div class="flex items-center space-x-4">
                     <div class="text-right hidden sm:block">
                         <div class="text-sm font-medium leading-none">{{ auth()->user()->name }}</div>
@@ -53,13 +60,13 @@
                         </button>
                     </form>
                 </div>
-                @endauth
             </div>
         </div>
     </header>
+    @endauth
 
-    <main class="flex-1 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <main class="flex-1 flex flex-col {{ request()->routeIs('login') ? 'justify-center py-4' : 'py-8' }}">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1 flex flex-col {{ request()->routeIs('login') ? 'justify-center' : '' }}">
             @if (session()->has('status'))
                 <div class="mb-6 p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-center justify-between">
                     <span>{{ session('status') }}</span>
@@ -79,8 +86,9 @@
     </main>
 
     <footer class="bg-white border-t border-slate-200 py-4 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-            &copy; {{ date('Y') }} IT Helpdesk Management System — Versi 1.0
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span>&copy; {{ date('Y') }} IT Helpdesk Management System — PT. Kumala Central Partindo</span>
+            <span class="text-slate-400">Versi 1.0 (PKL)</span>
         </div>
     </footer>
 

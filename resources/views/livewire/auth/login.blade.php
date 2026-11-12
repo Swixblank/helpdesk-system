@@ -1,8 +1,12 @@
-<div class="max-w-md mx-auto my-12">
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="bg-indigo-700 px-6 py-6 text-center text-white">
-            <h1 class="text-2xl font-bold">Masuk ke Helpdesk</h1>
-            <p class="text-indigo-200 text-sm mt-1">Sistem Pengelolaan Kendala IT Perusahaan</p>
+<div class="w-full max-w-md mx-auto my-auto py-4">
+    <div class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
+        <div class="bg-indigo-700 px-6 py-7 text-center text-white flex flex-col items-center">
+            <div class="bg-white p-2 rounded-xl shadow-sm mb-3 flex items-center justify-center">
+                <img src="{{ asset('images/logo-kumala.png') }}" alt="Logo PT. Kumala Central Partindo" class="h-12 w-auto object-contain">
+            </div>
+            <h1 class="text-2xl font-bold tracking-tight">IT Helpdesk System</h1>
+            <p class="text-indigo-200 text-xs font-semibold tracking-wider uppercase mt-1">PT. Kumala Central Partindo</p>
+            <p class="text-indigo-100 text-xs mt-1">Sistem Pengelolaan & Pelacakan Kendala TI</p>
         </div>
 
         <form wire:submit="login" class="p-6 space-y-5">
@@ -57,14 +61,5 @@
                 </span>
             </button>
         </form>
-
-        <div class="bg-slate-50 border-t border-slate-200 p-4 text-xs text-slate-600">
-            <div class="font-semibold text-slate-700 mb-1">Akun Uji Coba Tersedia:</div>
-            <ul class="space-y-1 font-mono text-[11px]">
-                <li>• Admin: <span class="text-indigo-600">admin@helpdesk.test</span> (pass: password)</li>
-                <li>• IT Support: <span class="text-indigo-600">support@helpdesk.test</span> (pass: password)</li>
-                <li>• Employee: <span class="text-indigo-600">employee@helpdesk.test</span> (pass: password)</li>
-            </ul>
-        </div>
     </div>
 </div>
