@@ -28,6 +28,8 @@ class ReportExportTest extends TestCase
         $response = $this->actingAs($admin)->get('/reports');
         $response->assertStatus(200);
         $response->assertSee('Laporan & Rekapitulasi Tiket');
+        $response->assertSee('Format Potret (Tegak)');
+        $response->assertSee('Format Lanskap (Mendatar)');
     }
 
     public function test_non_admin_cannot_access_reports_page(): void
@@ -70,14 +72,36 @@ class ReportExportTest extends TestCase
         $this->assertStringContainsString('laporan-tiket-helpdesk-', $response->headers->get('Content-Disposition'));
     }
 
-    public function test_admin_can_access_reports_print_page_with_word_pagination(): void
+    public function test_admin_can_access_reports_print_portrait_and_landscape(): void
     {
         $admin = User::where('email', 'admin@helpdesk.test')->first();
 
-        $response = $this->actingAs($admin)->get('/reports/print');
+        // Default & Portrait
+        $responsePortrait = $this->actingAs($admin)->get('/reports/print?orientation=portrait');
+        $responsePortrait->assertStatus(200);
+        $responsePortrait->assertSee('LAPORAN REKAPITULASI PENANGANAN KENDALA IT');
+        $responsePortrait->assertSee('word-page');
+        $responsePortrait->assertSee('Potret (Tegak)');
+        $responsePortrait->assertSee('size: A4 portrait');
+
+        // Landscape
+        $responseLandscape = $this->actingAs($admin)->get('/reports/print?orientation=landscape');
+        $responseLandscape->assertStatus(200);
+        $responseLandscape->assertSee('word-page');
+        $responseLandscape->assertSee('Lanskap (Mendatar)');
+        $responseLandscape->assertSee('size: A4 landscape');
+    }
+
+    public function test_reports_print_fits_single_page_when_few_tickets(): void
+    {
+        $admin = User::where('email', 'admin@helpdesk.test')->first();
+
+        // Delete all extra tickets so only 6 initial seeded tickets remain
+        Ticket::where('ticket_number', 'not like', 'TICK-202611-%')->delete();
+
+        $response = $this->actingAs($admin)->get('/reports/print?orientation=portrait');
         $response->assertStatus(200);
-        $response->assertSee('LAPORAN REKAPITULASI PENANGANAN KENDALA IT');
-        $response->assertSee('word-page');
-        $response->assertSee('Microsoft Word');
+        $response->assertSee('Halaman 1 dari 1');
+        $this->assertEquals(1, substr_count($response->getContent(), 'class="word-page"'));
     }
 }

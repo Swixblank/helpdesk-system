@@ -109,12 +109,18 @@ Route::middleware('auth')->group(function () {
             $periodText = 'Sampai ' . \Carbon\Carbon::parse($request->query('end_date'))->format('d/m/Y');
         }
 
+        $orientation = $request->query('orientation', 'portrait');
+        if (!in_array($orientation, ['portrait', 'landscape'])) {
+            $orientation = 'portrait';
+        }
+
         return view('reports.print', [
             'tickets' => $tickets,
             'statusFilter' => $request->query('status'),
             'categoryName' => $categoryName,
             'priorityFilter' => $request->query('priority'),
             'periodText' => $periodText,
+            'orientation' => $orientation,
         ]);
     })->name('reports.print');
 

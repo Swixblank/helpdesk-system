@@ -6,24 +6,94 @@
             <p class="text-slate-500 text-sm mt-1">Saring data kendala IT, analisis riwayat penanganan, dan unduh laporan ke format Excel.</p>
         </div>
         <div class="flex flex-wrap items-center gap-2.5">
-            <a 
-                href="{{ route('reports.print', [
-                    'status' => $statusFilter,
-                    'category_id' => $categoryFilter,
-                    'priority' => $priorityFilter,
-                    'assigned_to' => $assignedToFilter,
-                    'start_date' => $startDate,
-                    'end_date' => $endDate,
-                ]) }}" 
-                target="_blank"
-                class="inline-flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2.5 rounded-lg shadow-2xs transition cursor-pointer"
-                title="Buka Pratinjau Cetak Formal / Simpan PDF"
-            >
-                <svg class="w-4 h-4 text-indigo-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
-                </svg>
-                <span>Cetak Laporan (PDF)</span>
-            </a>
+            <!-- Dropdown Pilihan Cetak PDF (Potret / Lanskap) -->
+            <div class="relative inline-flex rounded-lg shadow-2xs" x-data="{ open: false }">
+                <a 
+                    href="{{ route('reports.print', [
+                        'status' => $statusFilter,
+                        'category_id' => $categoryFilter,
+                        'priority' => $priorityFilter,
+                        'assigned_to' => $assignedToFilter,
+                        'start_date' => $startDate,
+                        'end_date' => $endDate,
+                        'orientation' => 'portrait',
+                    ]) }}" 
+                    target="_blank"
+                    class="inline-flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2.5 rounded-l-lg transition cursor-pointer"
+                    title="Cetak Laporan Format Potret (A4 Tegak)"
+                >
+                    <svg class="w-4 h-4 text-indigo-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    <span>Cetak Laporan (PDF)</span>
+                </a>
+
+                <button 
+                    type="button" 
+                    @click="open = !open" 
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-2.5 rounded-r-lg border-l border-indigo-500/50 transition cursor-pointer flex items-center justify-center"
+                    title="Pilih Tata Letak (Potret / Lanskap)"
+                >
+                    <svg class="w-4 h-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <!-- Menu Dropdown Tata Letak -->
+                <div 
+                    x-show="open" 
+                    @click.away="open = false" 
+                    x-cloak
+                    class="absolute right-0 top-full mt-2 w-72 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 divide-y divide-slate-100"
+                >
+                    <div class="px-3 py-1.5 text-2xs font-bold text-slate-400 uppercase tracking-wider">
+                        Pilih Tata Letak Dokumen
+                    </div>
+                    <a 
+                        href="{{ route('reports.print', [
+                            'status' => $statusFilter,
+                            'category_id' => $categoryFilter,
+                            'priority' => $priorityFilter,
+                            'assigned_to' => $assignedToFilter,
+                            'start_date' => $startDate,
+                            'end_date' => $endDate,
+                            'orientation' => 'portrait',
+                        ]) }}" 
+                        target="_blank"
+                        @click="open = false"
+                        class="flex items-start px-3.5 py-2.5 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 transition group"
+                    >
+                        <span class="text-lg mr-3">📄</span>
+                        <div>
+                            <div class="font-semibold text-slate-900 group-hover:text-indigo-700 flex items-center gap-1.5">
+                                <span>Format Potret (Tegak)</span>
+                                <span class="bg-indigo-100 text-indigo-700 text-2xs px-1.5 py-0.5 rounded font-medium">Direkomendasikan</span>
+                            </div>
+                            <div class="text-2xs text-slate-500 mt-0.5 leading-relaxed">Format vertikal Word / PDF, rapi untuk pengesahan & arsip laporan dinas.</div>
+                        </div>
+                    </a>
+                    <a 
+                        href="{{ route('reports.print', [
+                            'status' => $statusFilter,
+                            'category_id' => $categoryFilter,
+                            'priority' => $priorityFilter,
+                            'assigned_to' => $assignedToFilter,
+                            'start_date' => $startDate,
+                            'end_date' => $endDate,
+                            'orientation' => 'landscape',
+                        ]) }}" 
+                        target="_blank"
+                        @click="open = false"
+                        class="flex items-start px-3.5 py-2.5 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 transition group"
+                    >
+                        <span class="text-lg mr-3">📜</span>
+                        <div>
+                            <div class="font-semibold text-slate-900 group-hover:text-indigo-700">Format Lanskap (Mendatar)</div>
+                            <div class="text-2xs text-slate-500 mt-0.5 leading-relaxed">Format horisontal melebar, cocok untuk pemantauan seluruh kolom tabel.</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
             <button 
                 wire:click="exportExcel" 
