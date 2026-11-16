@@ -69,4 +69,15 @@ class ReportExportTest extends TestCase
         $this->assertStringContainsString('text/csv', $response->headers->get('Content-Type'));
         $this->assertStringContainsString('laporan-tiket-helpdesk-', $response->headers->get('Content-Disposition'));
     }
+
+    public function test_admin_can_access_reports_print_page_with_word_pagination(): void
+    {
+        $admin = User::where('email', 'admin@helpdesk.test')->first();
+
+        $response = $this->actingAs($admin)->get('/reports/print');
+        $response->assertStatus(200);
+        $response->assertSee('LAPORAN REKAPITULASI PENANGANAN KENDALA IT');
+        $response->assertSee('word-page');
+        $response->assertSee('Microsoft Word');
+    }
 }

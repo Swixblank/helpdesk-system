@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\DB;
 class KaggleTicketSeeder extends Seeder
 {
     /**
-     * Jumlah baris yang akan diimpor.
+     * Jumlah baris yang akan diimpor (disetel 400 sesuai kebutuhan data pengujian).
      */
-    protected int $importLimit = 200;
+    protected int $importLimit = 400;
 
     /**
      * Run the database seeds.

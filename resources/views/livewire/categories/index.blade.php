@@ -27,7 +27,7 @@
                         <th class="px-6 py-3.5">Deskripsi</th>
                         <th class="px-6 py-3.5 text-center">Jumlah Tiket</th>
                         <th class="px-6 py-3.5 text-center">Status</th>
-                        <th class="px-6 py-3.5 text-right">Aksi</th>
+                        <th class="px-6 py-3.5 text-center">Tools</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
@@ -82,11 +82,16 @@
             </table>
         </div>
 
-        @if ($categories->hasPages())
-            <div class="p-4 border-t border-slate-200">
-                {{ $categories->links() }}
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+            <div class="flex items-center space-x-3">
+                <span class="font-semibold text-slate-700">Jumlah Data : <span class="text-indigo-600 font-bold">{{ $categories->count() }}</span> Kategori</span>
             </div>
-        @endif
+            @if ($categories->hasPages())
+                <div>
+                    {{ $categories->links() }}
+                </div>
+            @endif
+        </div>
     </div>
 
     <!-- Modal Form (Create / Edit) -->

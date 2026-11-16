@@ -28,6 +28,20 @@
 
         <!-- Action Buttons Bar -->
         <div class="flex flex-wrap items-center gap-2">
+            <!-- Tombol Cetak Tiket Resmi (Hanya untuk Administrator) -->
+            @if ($currentUser->hasRole('administrator'))
+                <a 
+                    href="{{ route('tickets.print', $ticket->id) }}" 
+                    target="_blank"
+                    class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-lg shadow-2xs transition cursor-pointer flex items-center space-x-1.5"
+                    title="Cetak Surat Tugas & Lembar Penanganan IT"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    <span>Cetak Lembar Tiket</span>
+                </a>
+            @endif
             <!-- IT Support: Klaim Tiket Mandiri -->
             @if ($currentUser->hasRole('it_support') && $ticket->status === 'open' && !$ticket->activeAssignment)
                 <button 

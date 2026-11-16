@@ -1,20 +1,20 @@
 <div>
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div>
-            <h1 class="text-2xl font-bold text-slate-800">Daftar Tiket Kendala</h1>
-            <p class="text-slate-500 text-sm mt-1">Pantau status laporan dan tindak lanjut penanganan teknis kendala IT.</p>
-        </div>
-        <div>
-            <a 
-                href="{{ route('tickets.create') }}" 
-                class="inline-flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2.5 rounded-lg shadow-2xs transition cursor-pointer"
-            >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                </svg>
-                <span>Buat Tiket Baru</span>
-            </a>
-        </div>
+    <!-- Sub-Navigasi Layanan Tiket (Pola Akademik) -->
+    <div class="flex items-center space-x-2 text-sm font-medium border-b border-slate-200 pb-3 mb-6">
+        <a href="{{ route('tickets.create') }}" class="px-3 py-1.5 rounded-lg {{ request()->routeIs('tickets.create') ? 'bg-indigo-600 text-white font-semibold' : 'text-indigo-600 hover:bg-indigo-50 bg-white border border-indigo-200' }} transition inline-flex items-center space-x-1.5 shadow-2xs">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            <span>Buat Tiket Baru</span>
+        </a>
+        <span class="text-slate-300">|</span>
+        <a href="{{ route('tickets.index') }}" class="px-3 py-1.5 rounded-lg {{ request()->routeIs('tickets.index') ? 'bg-indigo-600 text-white font-semibold' : 'text-indigo-600 hover:bg-indigo-50 bg-white border border-indigo-200' }} transition inline-flex items-center space-x-1.5 shadow-2xs">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+            <span>Daftar Tiket Kendala</span>
+        </a>
+    </div>
+
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-slate-800">Daftar Tiket Kendala</h1>
+        <p class="text-slate-500 text-sm mt-1">Pantau status laporan dan tindak lanjut penanganan teknis kendala IT.</p>
     </div>
 
     <!-- Filter & Search Bar Lanjutan (Hari 15) -->
@@ -166,7 +166,7 @@
                         <th class="px-5 py-3.5">Petugas</th>
                         <th class="px-5 py-3.5">Status</th>
                         <th class="px-5 py-3.5">Tanggal</th>
-                        <th class="px-5 py-3.5 text-right">Aksi</th>
+                        <th class="px-5 py-3.5 text-center">Tools</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
@@ -231,13 +231,29 @@
                             <td class="px-5 py-3.5 text-xs text-slate-400">
                                 {{ $ticket->created_at->format('d M Y H:i') }}
                             </td>
-                            <td class="px-5 py-3.5 text-right">
-                                <a 
-                                    href="{{ route('tickets.show', $ticket->id) }}" 
-                                    class="inline-flex items-center text-xs font-semibold text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1.5 rounded transition"
-                                >
-                                    Detail &rarr;
-                                </a>
+                            <td class="px-5 py-3.5 text-center whitespace-nowrap">
+                                <div class="inline-flex items-center space-x-1.5">
+                                    <a 
+                                        href="{{ route('tickets.show', $ticket->id) }}" 
+                                        class="inline-flex items-center text-xs font-semibold text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1.5 rounded transition"
+                                        title="Detail & Diskusi"
+                                    >
+                                        Detail
+                                    </a>
+                                    @if (auth()->user()->hasRole('administrator'))
+                                        <a 
+                                            href="{{ route('tickets.print', $ticket->id) }}" 
+                                            target="_blank"
+                                            class="inline-flex items-center text-xs font-semibold text-emerald-700 hover:text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2.5 py-1.5 rounded transition"
+                                            title="Cetak Surat Tugas & Lembar Kerja"
+                                        >
+                                            <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                                            </svg>
+                                            Cetak
+                                        </a>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @empty
@@ -251,10 +267,15 @@
             </table>
         </div>
 
-        @if ($tickets->hasPages())
-            <div class="p-4 border-t border-slate-200">
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+            <div class="flex items-center space-x-3">
+                <span class="font-semibold text-slate-700">Jumlah Data : <span class="text-indigo-600 font-bold">{{ $tickets->total() }}</span> Tiket</span>
+                <span class="text-slate-300">|</span>
+                <span>Halaman ke : <span class="font-bold text-slate-800">{{ $tickets->currentPage() }}</span> dari {{ $tickets->lastPage() }}</span>
+            </div>
+            <div>
                 {{ $tickets->links() }}
             </div>
-        @endif
+        </div>
     </div>
 </div>
