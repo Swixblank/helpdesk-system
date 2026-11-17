@@ -192,4 +192,18 @@ class TicketWorkflowTest extends TestCase
         $this->assertEquals($support->id, $ticket->activeAssignment->assigned_to);
         $this->assertEquals('Tolong prioritaskan sebelum siang ini.', $ticket->activeAssignment->notes);
     }
+
+    public function test_it_support_cannot_access_or_create_ticket(): void
+    {
+        $support = User::where('email', 'support@helpdesk.test')->first();
+
+        $this->actingAs($support);
+
+        // Akses via HTTP GET /tickets/create harus 403 Forbidden
+        $response = $this->get(route('tickets.create'));
+        $response->assertForbidden();
+
+        // Akses via Livewire Component Create::class harus forbidden
+        Livewire::test(Create::class)->assertForbidden();
+    }
 }

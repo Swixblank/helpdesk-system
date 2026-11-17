@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Livewire\Users\Create;
 use App\Livewire\Users\Index;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
@@ -116,5 +117,42 @@ class UserManagementTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('LAPORAN DATA PENGGUNA DAN STAF IT SUPPORT');
         $response->assertSee('PT. KUMALA CENTRAL PARTINDO');
+    }
+
+    public function test_admin_can_access_users_create_page_and_create_user(): void
+    {
+        $admin = User::where('email', 'admin@helpdesk.test')->first();
+
+        $this->actingAs($admin);
+
+        // Halaman dapat diakses
+        $response = $this->get(route('users.create'));
+        $response->assertStatus(200);
+        $response->assertSee('Tambah Pengguna Baru');
+
+        // Form Livewire berfungsi
+        Livewire::test(Create::class)
+            ->set('name', 'Rizky Teknisi')
+            ->set('email', 'rizky@helpdesk.test')
+            ->set('password', 'password123')
+            ->set('role', 'it_support')
+            ->set('is_active', true)
+            ->call('save')
+            ->assertHasNoErrors()
+            ->assertRedirect(route('users.index'));
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'Rizky Teknisi',
+            'email' => 'rizky@helpdesk.test',
+        ]);
+    }
+
+    public function test_non_admin_cannot_access_users_create_page(): void
+    {
+        $employee = User::where('email', 'employee@helpdesk.test')->first();
+        $support = User::where('email', 'support@helpdesk.test')->first();
+
+        $this->actingAs($employee)->get(route('users.create'))->assertStatus(403);
+        $this->actingAs($support)->get(route('users.create'))->assertStatus(403);
     }
 }

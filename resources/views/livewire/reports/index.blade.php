@@ -276,8 +276,8 @@
             </table>
         </div>
 
-        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
-            <div class="flex items-center space-x-3">
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-slate-600" style="gap: 24px;">
+            <div class="flex items-center space-x-3 shrink-0">
                 <span class="font-semibold text-slate-700">Jumlah Data : <span class="text-indigo-600 font-bold">{{ $tickets->total() }}</span> Tiket</span>
                 <span class="text-slate-300">|</span>
                 <span>Halaman ke : <span class="font-bold text-slate-800">{{ $tickets->currentPage() }}</span> dari {{ $tickets->lastPage() }}</span>

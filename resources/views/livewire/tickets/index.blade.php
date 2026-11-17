@@ -1,20 +1,17 @@
 <div>
-    <!-- Sub-Navigasi Layanan Tiket (Pola Akademik) -->
-    <div class="flex items-center space-x-2 text-sm font-medium border-b border-slate-200 pb-3 mb-6">
-        <a href="{{ route('tickets.create') }}" class="px-3 py-1.5 rounded-lg {{ request()->routeIs('tickets.create') ? 'bg-indigo-600 text-white font-semibold' : 'text-indigo-600 hover:bg-indigo-50 bg-white border border-indigo-200' }} transition inline-flex items-center space-x-1.5 shadow-2xs">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-            <span>Buat Tiket Baru</span>
-        </a>
-        <span class="text-slate-300">|</span>
-        <a href="{{ route('tickets.index') }}" class="px-3 py-1.5 rounded-lg {{ request()->routeIs('tickets.index') ? 'bg-indigo-600 text-white font-semibold' : 'text-indigo-600 hover:bg-indigo-50 bg-white border border-indigo-200' }} transition inline-flex items-center space-x-1.5 shadow-2xs">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
-            <span>Daftar Tiket Kendala</span>
-        </a>
-    </div>
-
-    <div class="mb-6">
-        <h1 class="text-2xl font-bold text-slate-800">Daftar Tiket Kendala</h1>
-        <p class="text-slate-500 text-sm mt-1">Pantau status laporan dan tindak lanjut penanganan teknis kendala IT.</p>
+    <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-800">Daftar Tiket Kendala</h1>
+            <p class="text-slate-500 text-sm mt-1">Pantau status laporan dan tindak lanjut penanganan teknis kendala IT.</p>
+        </div>
+        @unless (auth()->user()->hasRole('it_support'))
+            <div>
+                <a href="{{ route('tickets.create') }}" class="inline-flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2 rounded-lg shadow-2xs transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    <span>Buat Tiket Baru</span>
+                </a>
+            </div>
+        @endunless
     </div>
 
     <!-- Filter & Search Bar Lanjutan (Hari 15) -->
@@ -267,8 +264,8 @@
             </table>
         </div>
 
-        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
-            <div class="flex items-center space-x-3">
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-slate-600" style="gap: 24px;">
+            <div class="flex items-center space-x-3 shrink-0">
                 <span class="font-semibold text-slate-700">Jumlah Data : <span class="text-indigo-600 font-bold">{{ $tickets->total() }}</span> Tiket</span>
                 <span class="text-slate-300">|</span>
                 <span>Halaman ke : <span class="font-bold text-slate-800">{{ $tickets->currentPage() }}</span> dari {{ $tickets->lastPage() }}</span>

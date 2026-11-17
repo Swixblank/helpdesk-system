@@ -1,17 +1,4 @@
 <div class="max-w-3xl mx-auto">
-    <!-- Sub-Navigasi Layanan Tiket (Pola Akademik) -->
-    <div class="flex items-center space-x-2 text-sm font-medium border-b border-slate-200 pb-3 mb-6">
-        <a href="{{ route('tickets.create') }}" class="px-3 py-1.5 rounded-lg {{ request()->routeIs('tickets.create') ? 'bg-indigo-600 text-white font-semibold' : 'text-indigo-600 hover:bg-indigo-50 bg-white border border-indigo-200' }} transition inline-flex items-center space-x-1.5 shadow-2xs">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-            <span>Buat Tiket Baru</span>
-        </a>
-        <span class="text-slate-300">|</span>
-        <a href="{{ route('tickets.index') }}" class="px-3 py-1.5 rounded-lg {{ request()->routeIs('tickets.index') ? 'bg-indigo-600 text-white font-semibold' : 'text-indigo-600 hover:bg-indigo-50 bg-white border border-indigo-200' }} transition inline-flex items-center space-x-1.5 shadow-2xs">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
-            <span>Daftar Tiket Kendala</span>
-        </a>
-    </div>
-
     <div class="mb-6 flex items-center justify-between">
         <div>
             <h1 class="text-2xl font-bold text-slate-800">Buat Tiket Kendala Baru</h1>

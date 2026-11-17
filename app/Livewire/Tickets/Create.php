@@ -26,6 +26,13 @@ class Create extends Component
 
     public function mount(): void
     {
+        // Cegah Petugas IT Support membuat tiket kendala (Sesuai PRD Bab 5.4 Matriks Hak Akses)
+        abort_if(
+            auth()->user()->hasRole('it_support'),
+            403,
+            'Akses terbatas: Petugas IT Support tidak memiliki wewenang untuk mengajukan tiket kendala.'
+        );
+
         // Default category ke kategori aktif pertama jika ada
         $firstCategory = Category::where('is_active', true)->orderBy('name')->first();
         if ($firstCategory) {
@@ -60,6 +67,12 @@ class Create extends Component
 
     public function save()
     {
+        abort_if(
+            auth()->user()->hasRole('it_support'),
+            403,
+            'Akses terbatas: Petugas IT Support tidak memiliki wewenang untuk mengajukan tiket kendala.'
+        );
+
         $this->validate();
 
         return DB::transaction(function () {

@@ -7,6 +7,7 @@ use App\Livewire\Reports\Index as ReportsIndex;
 use App\Livewire\Tickets\Create as TicketsCreate;
 use App\Livewire\Tickets\Index as TicketsIndex;
 use App\Livewire\Tickets\Show as TicketsShow;
+use App\Livewire\Users\Create as UsersCreate;
 use App\Livewire\Users\Index as UsersIndex;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,7 @@ Route::middleware('auth')->group(function () {
 
     // Modul Pengguna & Staf (Khusus Administrator)
     Route::get('/users', UsersIndex::class)->name('users.index');
+    Route::get('/users/create', UsersCreate::class)->name('users.create');
     Route::get('/users/print', function (Request $request) {
         abort_unless(auth()->user()->hasRole('administrator'), 403, 'Akses terbatas untuk Administrator.');
 

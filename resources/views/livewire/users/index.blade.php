@@ -1,41 +1,27 @@
 <div>
-    <!-- Sub-Navigasi Layanan Pengguna (Pola Akademik) -->
-    <div class="flex items-center space-x-2 text-sm font-medium border-b border-slate-200 pb-3 mb-6">
-        <button 
-            wire:click="openCreateModal"
-            class="px-3 py-1.5 rounded-lg text-indigo-600 hover:bg-indigo-50 bg-white border border-indigo-200 transition inline-flex items-center space-x-1.5 shadow-2xs cursor-pointer"
-        >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-            </svg>
-            <span>+ Tambah Pengguna Baru</span>
-        </button>
-        <span class="text-slate-300">|</span>
-        <a 
-            href="{{ route('users.index') }}" 
-            class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-semibold transition inline-flex items-center space-x-1.5 shadow-2xs"
-        >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-            </svg>
-            <span>Daftar Pengguna & Staf</span>
-        </a>
-    </div>
-
     <!-- Header & Action -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
             <h1 class="text-2xl font-bold text-slate-800">Manajemen Pengguna & Staf</h1>
             <p class="text-slate-500 text-sm mt-1">Kelola akun pengguna, staf teknisi IT Support, dan peran hak akses sistem PT. Kumala Central Partindo.</p>
         </div>
-        <div>
+        <div class="flex items-center gap-3.5" style="gap: 14px;">
+            <a 
+                href="{{ route('users.create') }}" 
+                class="inline-flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2.5 rounded-lg shadow-2xs transition cursor-pointer"
+            >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                </svg>
+                <span>+ Tambah Pengguna Baru</span>
+            </a>
             <a 
                 href="{{ route('users.print', ['role' => $roleFilter, 'status' => $statusFilter]) }}" 
                 target="_blank"
-                class="inline-flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2.5 rounded-lg shadow-2xs transition cursor-pointer"
+                class="inline-flex items-center space-x-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-semibold text-sm px-4 py-2.5 rounded-lg shadow-2xs transition cursor-pointer"
                 title="Cetak Laporan Data Pengguna & Staf (PDF)"
             >
-                <svg class="w-4 h-4 text-indigo-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                 </svg>
                 <span>Cetak Laporan Staf (PDF)</span>
@@ -206,8 +192,8 @@
         </div>
 
         <!-- Indikator Ringkasan Data Bawah Tabel -->
-        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
-            <div class="flex items-center space-x-3">
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-slate-600" style="gap: 24px;">
+            <div class="flex items-center space-x-3 shrink-0">
                 <span class="font-semibold text-slate-700">Jumlah Data : <span class="text-indigo-600 font-bold">{{ $users->total() }}</span> Pengguna</span>
                 <span class="text-slate-300">|</span>
                 <span>Halaman ke : <span class="font-bold text-slate-800">{{ $users->currentPage() }}</span> dari {{ $users->lastPage() }}</span>
