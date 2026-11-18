@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Rekapitulasi Kendala IT ({{ $orientation === 'portrait' ? 'Potret' : 'Lanskap' }}) - PT. Kumala Central Partindo</title>
+    <title>{{ $reportTitle ?? 'Laporan Rekapitulasi Kendala IT' }} ({{ $orientation === 'portrait' ? 'Potret' : 'Lanskap' }}) - PT. Kumala Central Partindo</title>
     
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.png') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
@@ -797,7 +797,7 @@
 
                     <!-- JUDUL LAPORAN -->
                     <div class="doc-title">
-                        <h4>LAPORAN REKAPITULASI PENANGANAN KENDALA IT (IT HELPDESK)</h4>
+                        <h4>{{ $reportTitle ?? 'LAPORAN REKAPITULASI PENANGANAN KENDALA IT (IT HELPDESK)' }}</h4>
                         <p>Dicetak pada: {{ now()->translatedFormat('l, d F Y - H:i') }} WITA | Oleh: {{ auth()->user()->name }} (ADMINISTRATOR)</p>
                     </div>
 
@@ -813,7 +813,7 @@
                     <!-- RUNNING HEADER HALAMAN LANJUTAN -->
                     <div class="running-header">
                         <span><strong>PT. KUMALA CENTRAL PARTINDO</strong> — Divisi Teknologi Informasi</span>
-                        <span>Laporan Rekapitulasi Kendala IT (Lanjutan)</span>
+                        <span>{{ $reportTitle ?? 'Laporan Rekapitulasi Kendala IT' }} (Lanjutan)</span>
                     </div>
                 @endif
 

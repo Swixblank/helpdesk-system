@@ -5,7 +5,7 @@
             <h1 class="text-2xl font-bold text-slate-800">Manajemen Pengguna & Staf</h1>
             <p class="text-slate-500 text-sm mt-1">Kelola akun pengguna, staf teknisi IT Support, dan peran hak akses sistem PT. Kumala Central Partindo.</p>
         </div>
-        <div class="flex items-center gap-3.5" style="gap: 14px;">
+        <div>
             <a 
                 href="{{ route('users.create') }}" 
                 class="inline-flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2.5 rounded-lg shadow-2xs transition cursor-pointer"
@@ -14,17 +14,6 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
                 </svg>
                 <span>+ Tambah Pengguna Baru</span>
-            </a>
-            <a 
-                href="{{ route('users.print', ['role' => $roleFilter, 'status' => $statusFilter]) }}" 
-                target="_blank"
-                class="inline-flex items-center space-x-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-semibold text-sm px-4 py-2.5 rounded-lg shadow-2xs transition cursor-pointer"
-                title="Cetak Laporan Data Pengguna & Staf (PDF)"
-            >
-                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
-                </svg>
-                <span>Cetak Laporan Staf (PDF)</span>
             </a>
         </div>
     </div>

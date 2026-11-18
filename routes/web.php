@@ -69,6 +69,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports/print', function (\Illuminate\Http\Request $request) {
         abort_unless(auth()->user()->hasRole('administrator'), 403, 'Akses terbatas untuk Administrator.');
 
+        $reportType = $request->query('type', 'all');
+
+        if ($reportType === 'users') {
+            return redirect()->route('users.print');
+        }
+
         $query = \App\Models\Ticket::with(['creator', 'category', 'activeAssignment.assignedTo']);
 
         if ($status = $request->query('status')) {
@@ -116,8 +122,44 @@ Route::middleware('auth')->group(function () {
             $orientation = 'portrait';
         }
 
+        $reportTitles = [
+            'all' => 'LAPORAN REKAPITULASI PENANGANAN KENDALA IT (IT HELPDESK)',
+            'status' => 'LAPORAN KENDALA IT BERDASARKAN STATUS PENANGANAN',
+            'technician' => 'LAPORAN KINERJA & BEBAN KERJA PETUGAS IT SUPPORT',
+            'category' => 'LAPORAN DISTRIBUSI KENDALA IT BERDASARKAN KATEGORI MASALAH',
+            'priority' => 'LAPORAN INSIDEN KENDALA IT BERDASARKAN SKALA PRIORITAS',
+            'users' => 'LAPORAN DATA PENGGUNA & STAF SISTEM IT HELPDESK',
+        ];
+
+        $reportTitle = $reportTitles[$reportType] ?? $reportTitles['all'];
+
+        $techniciansStats = \App\Models\User::role('it_support')
+            ->withCount([
+                'assignments as total_assigned',
+                'assignments as total_resolved' => fn ($q) => $q->whereHas('ticket', fn ($t) => $t->whereIn('status', ['resolved', 'closed'])),
+                'assignments as total_in_progress' => fn ($q) => $q->whereHas('ticket', fn ($t) => $t->where('status', 'in_progress')),
+            ])
+            ->get();
+
+        $categoriesStats = \App\Models\Category::withCount([
+            'tickets as total_tickets',
+            'tickets as resolved_tickets' => fn ($q) => $q->whereIn('status', ['resolved', 'closed']),
+        ])->orderByDesc('total_tickets')->get();
+
+        $priorityStats = [
+            'critical' => \App\Models\Ticket::where('priority', 'critical')->count(),
+            'high' => \App\Models\Ticket::where('priority', 'high')->count(),
+            'medium' => \App\Models\Ticket::where('priority', 'medium')->count(),
+            'low' => \App\Models\Ticket::where('priority', 'low')->count(),
+        ];
+
         return view('reports.print', [
             'tickets' => $tickets,
+            'reportType' => $reportType,
+            'reportTitle' => $reportTitle,
+            'techniciansStats' => $techniciansStats,
+            'categoriesStats' => $categoriesStats,
+            'priorityStats' => $priorityStats,
             'statusFilter' => $request->query('status'),
             'categoryName' => $categoryName,
             'priorityFilter' => $request->query('priority'),

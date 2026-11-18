@@ -42,9 +42,78 @@
                             <a href="{{ route('users.index') }}" class="px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('users.*') ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-600' }}">
                                 Pengguna
                             </a>
-                            <a href="{{ route('reports.index') }}" class="px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('reports.*') ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-600' }}">
-                                Laporan
-                            </a>
+                            <!-- Menu Laporan Dropdown (Katalog 6 Jenis Laporan) -->
+                            <div class="relative inline-block text-left" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                                <a 
+                                    href="{{ route('reports.index') }}" 
+                                    class="px-3 py-2 rounded-md text-sm font-medium inline-flex items-center gap-1 {{ request()->routeIs('reports.*') ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-600' }}"
+                                >
+                                    <span>Laporan</span>
+                                    <svg class="w-3.5 h-3.5 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </a>
+
+                                <div 
+                                    x-show="open" 
+                                    x-transition:enter="transition ease-out duration-100"
+                                    x-transition:enter-start="transform opacity-0 scale-95"
+                                    x-transition:enter-end="transform opacity-100 scale-100"
+                                    x-transition:leave="transition ease-in duration-75"
+                                    x-transition:leave-start="transform opacity-100 scale-100"
+                                    x-transition:leave-end="transform opacity-0 scale-95"
+                                    class="absolute left-0 mt-0.5 w-72 origin-top-left rounded-xl bg-white shadow-xl ring-1 ring-black/5 divide-y divide-slate-100 z-50 py-1"
+                                    x-cloak
+                                >
+                                    <div class="px-3.5 py-2 text-2xs font-bold text-slate-400 uppercase tracking-wider">
+                                        Menu Laporan (6 Jenis Laporan)
+                                    </div>
+                                    <div class="py-1">
+                                        <a href="{{ route('reports.index', ['type' => 'all']) }}" class="flex items-center gap-2.5 px-3.5 py-2 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium">
+                                            <span class="text-base">📑</span>
+                                            <div>
+                                                <div class="font-semibold text-slate-900">Rekapitulasi Semua Tiket</div>
+                                                <div class="text-[10px] text-slate-400">Seluruh riwayat kendala & multi-filter</div>
+                                            </div>
+                                        </a>
+                                        <a href="{{ route('reports.index', ['type' => 'status']) }}" class="flex items-center gap-2.5 px-3.5 py-2 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium">
+                                            <span class="text-base">⏱️</span>
+                                            <div>
+                                                <div class="font-semibold text-slate-900">Laporan Status Penanganan</div>
+                                                <div class="text-[10px] text-slate-400">Tiket selesai vs tertunda / berjalan</div>
+                                            </div>
+                                        </a>
+                                        <a href="{{ route('reports.index', ['type' => 'technician']) }}" class="flex items-center gap-2.5 px-3.5 py-2 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium">
+                                            <span class="text-base">👨‍💻</span>
+                                            <div>
+                                                <div class="font-semibold text-slate-900">Kinerja Petugas IT Support</div>
+                                                <div class="text-[10px] text-slate-400">Produktivitas & beban kerja teknisi</div>
+                                            </div>
+                                        </a>
+                                        <a href="{{ route('reports.index', ['type' => 'category']) }}" class="flex items-center gap-2.5 px-3.5 py-2 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium">
+                                            <span class="text-base">🏷️</span>
+                                            <div>
+                                                <div class="font-semibold text-slate-900">Distribusi Kategori Masalah</div>
+                                                <div class="text-[10px] text-slate-400">Frekuensi kerusakan aset (HW/SW/Net)</div>
+                                            </div>
+                                        </a>
+                                        <a href="{{ route('reports.index', ['type' => 'priority']) }}" class="flex items-center gap-2.5 px-3.5 py-2 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium">
+                                            <span class="text-base">🚨</span>
+                                            <div>
+                                                <div class="font-semibold text-slate-900">Skala Prioritas & Urgensi</div>
+                                                <div class="text-[10px] text-slate-400">Insiden darurat (Critical & High)</div>
+                                            </div>
+                                        </a>
+                                        <a href="{{ route('reports.index', ['type' => 'users']) }}" class="flex items-center gap-2.5 px-3.5 py-2 text-xs text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium">
+                                            <span class="text-base">👥</span>
+                                            <div>
+                                                <div class="font-semibold text-slate-900">Laporan Pengguna & Staf</div>
+                                                <div class="text-[10px] text-slate-400">Master data akun pengguna sistem</div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         @endif
                     </nav>
                 </div>
